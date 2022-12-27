@@ -1,11 +1,5 @@
 package models;
 
-
-/**
- * @author hebod
- * @version 1.0
- * @created 14-nov-2022 9:08:51 PM
- */
 public class Category {
 
 	private int idCategory;

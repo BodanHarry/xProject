@@ -99,6 +99,26 @@ public class TblUser {
         }
         return resp;
     }
+    
+    public boolean existUserByEmail(String email) {
+        boolean resp = false;
+        try {
+            this.getReg();
+            while (rs.next()) {
+                if (rs.getString("Useremail").equals(email)) {
+                    resp = true;
+                    break;
+                } 
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar usuario: " + ex.getMessage());
+        } finally {
+
+            
+
+        }
+        return resp;
+    }
 
     public boolean editUser(User user) {
         boolean resp = false;
@@ -253,6 +273,32 @@ public class TblUser {
 
         }
 
+        return user;
+    }
+    
+    public User getUserByEmail(String email) {
+        User user = new User();
+        try {
+            this.getReg();
+            while (rs.next()) {
+                if (rs.getString("Useremail").equals(email)) {
+                    user = new User(
+                            rs.getInt("UserID"),
+                            rs.getString("Username"),
+                            rs.getString("Useremail"),
+                            rs.getString("Userpassword"),
+                            rs.getBytes("UserPhoto")
+                    );
+                    break;
+                }
+            }
+        } catch (SQLException ex) {
+            System.out.println("Error al buscar usuario: " + ex.getMessage());
+        } finally {
+
+          
+
+        }
         return user;
     }
     
