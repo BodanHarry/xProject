@@ -21,60 +21,56 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import models.User;
 
-/**
- *
- * @author hebod
- */
 public class FrmMain extends javax.swing.JFrame {
-
+    
     ArrayList<JPanel> panelsArray = new ArrayList<>();
     ArrayList<JLabel> labelsArray = new ArrayList<>();
     TblUser dUser = new TblUser();
-
+    
     public FrmMain(String name) throws IOException {
         initComponents();
         this.setLocationRelativeTo(null);
         this.addArrays();
         this.photo(name);
         this.jLbName.setText(name);
+        FrmProducts frmProducts = new FrmProducts();
+        this.showPanel(frmProducts.getBackgroundPanel());
     }
-
+    
     public void photo(String username) throws IOException {
         User user;
         user = dUser.getUser(username);
-     
+        
         byte[] bi = user.getImage();
         
-        if(bi==null){
+        if (bi == null) {
             ImageIcon noPhoto = new ImageIcon(getClass().getResource("/icons/noPhoto.png"));
             ImageIcon imageNull = new ImageIcon(noPhoto.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH));
             jUserPhoto.setIcon(imageNull);
-        }else{
+        } else {
             BufferedImage image = null;
             InputStream in = new ByteArrayInputStream(bi);
             image = ImageIO.read(in);
             ImageIcon imgi = new ImageIcon(image.getScaledInstance(70, 70, Image.SCALE_SMOOTH));
-            jUserPhoto.setIcon(imgi);  
+            jUserPhoto.setIcon(imgi);            
         }
         
-        
-
     }
-
+    
     public void addArrays() {
         panelsArray.add(jIdentifierProducts);
         panelsArray.add(jIdentifierInputs);
         panelsArray.add(jIdentifierOutputs);
         panelsArray.add(jIdentifierCategories);
         panelsArray.add(jIdentifierSettings);
-
+        
         labelsArray.add(jLbProducts);
         labelsArray.add(jLbInputs);
         labelsArray.add(jLbOutputs);
         labelsArray.add(jLbCategories);
         labelsArray.add(jLbSettings);
     }
-
+    
     private void setColors(JPanel panel, JLabel label) {
         for (JPanel actualPanel : panelsArray) {
             if (actualPanel == panel) {
@@ -83,7 +79,7 @@ public class FrmMain extends javax.swing.JFrame {
                 actualPanel.setBackground(new Color(220, 220, 220));
             }
         }
-
+        
         for (JLabel actualLabel : labelsArray) {
             if (actualLabel == label) {
                 actualLabel.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -92,7 +88,7 @@ public class FrmMain extends javax.swing.JFrame {
             }
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -123,7 +119,7 @@ public class FrmMain extends javax.swing.JFrame {
         jIconSettings = new javax.swing.JLabel();
         jLbSettings = new javax.swing.JLabel();
         jUserPhoto = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        jChangerPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(880, 520));
@@ -546,26 +542,28 @@ public class FrmMain extends javax.swing.JFrame {
 
         jPanelMain.add(jPanelOptions, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 190, 520));
 
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel1.setForeground(new java.awt.Color(0, 0, 0));
-        jPanel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        jChangerPanel.setBackground(new java.awt.Color(0, 0, 0));
+        jChangerPanel.setForeground(new java.awt.Color(0, 0, 0));
+        jChangerPanel.setMaximumSize(new java.awt.Dimension(670, 470));
+        jChangerPanel.setMinimumSize(new java.awt.Dimension(670, 470));
+        jChangerPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jPanel1MouseClicked(evt);
+                jChangerPanelMouseClicked(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+        javax.swing.GroupLayout jChangerPanelLayout = new javax.swing.GroupLayout(jChangerPanel);
+        jChangerPanel.setLayout(jChangerPanelLayout);
+        jChangerPanelLayout.setHorizontalGroup(
+            jChangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 670, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
+        jChangerPanelLayout.setVerticalGroup(
+            jChangerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 470, Short.MAX_VALUE)
         );
 
-        jPanelMain.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 40, -1, -1));
+        jPanelMain.add(jChangerPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 30, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -651,13 +649,19 @@ public class FrmMain extends javax.swing.JFrame {
         photo.setVisible(true);
     }//GEN-LAST:event_jUserPhotoMouseClicked
 
-    private void jPanel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel1MouseClicked
+    private void jChangerPanelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jChangerPanelMouseClicked
         this.jUserPhoto.repaint();
-    }//GEN-LAST:event_jPanel1MouseClicked
-
-    /**
-     * @param args the command line arguments
-     */
+    }//GEN-LAST:event_jChangerPanelMouseClicked
+    
+    private void showPanel(JPanel p) {
+        p.setSize(880, 520);
+        p.setLocation(0, 0);
+        jChangerPanel.removeAll();
+        jChangerPanel.add(p, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jChangerPanel.revalidate();
+        jChangerPanel.repaint();
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -696,6 +700,7 @@ public class FrmMain extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jChangerPanel;
     private javax.swing.JPanel jContainCategories;
     private javax.swing.JPanel jContainInputs;
     private javax.swing.JPanel jContainOutputs;
@@ -719,7 +724,6 @@ public class FrmMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLbProducts;
     private javax.swing.JLabel jLbSettings;
     private javax.swing.JPanel jMainBar;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanelMain;
     private javax.swing.JPanel jPanelOptions;
     private javax.swing.JLabel jUserPhoto;

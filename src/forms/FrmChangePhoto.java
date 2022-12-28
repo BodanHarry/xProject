@@ -106,8 +106,8 @@ public class FrmChangePhoto extends javax.swing.JFrame {
         jLbUserName.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLbUserName.setForeground(new java.awt.Color(0, 0, 0));
         jLbUserName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLbUserName.setText("Nombre de usuario");
-        jPanel1.add(jLbUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 160, -1, -1));
+        jLbUserName.setText("Usuario");
+        jPanel1.add(jLbUserName, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 160, -1, -1));
 
         jPhoto.setBackground(new java.awt.Color(0, 0, 0));
         jPhoto.setForeground(new java.awt.Color(0, 0, 0));

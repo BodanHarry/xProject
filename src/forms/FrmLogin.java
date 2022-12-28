@@ -39,7 +39,7 @@ public class FrmLogin extends javax.swing.JFrame {
         jLogin = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jTxtCreateAccount = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jTfEmail = new javax.swing.JTextField();
         jPfPassword = new javax.swing.JPasswordField();
@@ -93,10 +93,24 @@ public class FrmLogin extends javax.swing.JFrame {
         jLoginPanel.add(jLabel3);
         jLabel3.setBounds(140, 170, 70, 20);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel2.setText("Create Account");
-        jLoginPanel.add(jLabel2);
-        jLabel2.setBounds(200, 310, 102, 20);
+        jTxtCreateAccount.setBackground(new java.awt.Color(0, 0, 0));
+        jTxtCreateAccount.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jTxtCreateAccount.setForeground(new java.awt.Color(0, 0, 0));
+        jTxtCreateAccount.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTxtCreateAccount.setText("Create Account");
+        jTxtCreateAccount.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTxtCreateAccountMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jTxtCreateAccountMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jTxtCreateAccountMouseExited(evt);
+            }
+        });
+        jLoginPanel.add(jTxtCreateAccount);
+        jTxtCreateAccount.setBounds(200, 310, 110, 20);
 
         jLabel4.setBackground(new java.awt.Color(0, 0, 0));
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -351,10 +365,25 @@ public class FrmLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jPfPasswordActionPerformed
 
+    private void jTxtCreateAccountMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTxtCreateAccountMouseEntered
+        this.jTxtCreateAccount.setForeground(new Color(51,51,255));
+    }//GEN-LAST:event_jTxtCreateAccountMouseEntered
+
+    private void jTxtCreateAccountMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTxtCreateAccountMouseExited
+        this.jTxtCreateAccount.setForeground(new Color(0,0,0));
+    }//GEN-LAST:event_jTxtCreateAccountMouseExited
+
+    private void jTxtCreateAccountMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTxtCreateAccountMouseClicked
+        this.dispose();
+        FrmCreateAccount frmCreateAccount = new FrmCreateAccount();
+        frmCreateAccount.setVisible(true);
+    }//GEN-LAST:event_jTxtCreateAccountMouseClicked
+
     private void checkUser(String email, String password) throws IOException{
         if(dUser.existUserByEmail(email)){
             actualUser = dUser.getUserByEmail(email);
             if(actualUser.getUserPassword().equals(password)){
+                this.dispose();
                 FrmMain main = new FrmMain(actualUser.getUserName());
                 main.setVisible(true);
             }else{
@@ -404,7 +433,6 @@ public class FrmLogin extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jBtnLogin;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLbLogin;
@@ -415,6 +443,7 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JPanel jSpEmail;
     private javax.swing.JPanel jSpPassword;
     private javax.swing.JTextField jTfEmail;
+    private javax.swing.JLabel jTxtCreateAccount;
     private javax.swing.JLabel jTxtErrorEmail;
     private javax.swing.JLabel jTxtErrorPassword;
     // End of variables declaration//GEN-END:variables
