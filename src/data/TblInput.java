@@ -51,7 +51,7 @@ public class TblInput {
             this.getReg();
             while (rs.next()) {
                 int idProduct = Integer.parseInt(rs.getString("ProductID"));
-                product = products.getProduct(idProduct);
+                product = products.getProductByID(idProduct);
                 int idUser = rs.getInt("UserID");
                 user = users.getUserByID(idUser);
                 list.add(new Input(
@@ -203,7 +203,7 @@ public class TblInput {
             while (rs.next()) {
                 String inputDate = rs.getString("Inputdate");
                 int idProduct = Integer.parseInt(rs.getString("ProductID"));
-                product = products.getProduct(idProduct);
+                product = products.getProductByID(idProduct);
                 String username = rs.getString("Username");
                 if (Integer.parseInt(rs.getString("InputID")) == idInput) {
                     user = users.getUser(username);

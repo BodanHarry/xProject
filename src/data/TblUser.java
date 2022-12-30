@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package data;
 
 import models.User;
@@ -10,17 +6,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
-/**
- *
- * @author bradl
- */
 public class TblUser {
 
     private Connection conn = null;
     private static ResultSet rs = null;
     private static PreparedStatement ps = null;
+    
+    public ArrayList<User> temporalUserArray = new ArrayList<>();
+    public User temporalUser = new User();
 
     public void getReg() throws SQLException {
         try {
@@ -31,12 +25,13 @@ public class TblUser {
                     + ResultSet.HOLD_CURSORS_OVER_COMMIT);
             rs = ps.executeQuery();
         } catch (SQLException ex) {
-            System.out.println("Error al obtener registros" + ex.getMessage());
+            System.out.println("Error getting user records" + ex.getMessage());
         }
     }
 
-    public ArrayList<User> listaUser() {
+    public ArrayList<User> userList() {
         ArrayList<User> list = new ArrayList<>();
+        
         try {
             this.getReg();
             while (rs.next()) {
@@ -49,18 +44,13 @@ public class TblUser {
                 ));
             }
         } catch (SQLException ex) {
-            System.out.println("Error al listar al usuario: " + ex.getMessage());
-        } finally {
-
-           
+            System.out.println("Error listing user records" + ex.getMessage());
         }
-
         return list;
-
     }
 
-    public boolean addUser(User user) {
-        boolean guardado = false;
+    public boolean createUser(User user) {
+        boolean saved = false;
         try {
             this.getReg();
             rs.moveToInsertRow();
@@ -68,242 +58,17 @@ public class TblUser {
             rs.updateString("Useremail", user.getUserEmail());
             rs.updateString("Userpassword", user.getUserPassword());
             rs.insertRow();
-            guardado = true;
+            saved = true;
             rs.moveToCurrentRow();
             System.out.println("Se guardó mijo");
         } catch (SQLException ex) {
-            System.out.println("Error al guardar autor" + ex.getMessage());
-        } finally {
-
-
+            System.out.println("Error adding user" + ex.getMessage());
         }
-        return guardado;
-    }
-
-    public boolean existUser(String username) {
-        boolean resp = false;
-        try {
-            this.getReg();
-            while (rs.next()) {
-                if (rs.getString("Username").equals(username)) {
-                    resp = true;
-                    break;
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al buscar usuario: " + ex.getMessage());
-        } finally {
-
-            
-
-        }
-        return resp;
-    }
-    
-    public boolean existUserByEmail(String email) {
-        boolean resp = false;
-        try {
-            this.getReg();
-            while (rs.next()) {
-                if (rs.getString("Useremail").equals(email)) {
-                    resp = true;
-                    break;
-                } 
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al buscar usuario: " + ex.getMessage());
-        } finally {
-
-            
-
-        }
-        return resp;
+        return saved;
     }
 
     public boolean editUser(User user) {
-        boolean resp = false;
-        try {
-            this.getReg();
-            rs.beforeFirst();
-            while (rs.next()) {
-                if (rs.getString("Username").equals(user.getUserName())) {
-                    rs.updateString("Useremail", user.getUserEmail());
-                    rs.updateString("Username", user.getUserName());
-                    rs.updateString("Userpassword", user.getUserPassword());
-                    rs.updateRow();
-                    resp = true;
-                    break;
-
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al editar al usuario: " + ex.getMessage());
-        } finally {
-
-            
-        }
-
-        return resp;
-    }
-
-    public boolean removeUser(String username) {
-        boolean resp = false;
-        try {
-            this.getReg();
-            rs.beforeFirst();
-            while (rs.next()) {
-                if (rs.getString("Username").equals(username)) {
-                    rs.deleteRow();
-                    resp = true;
-                    break;
-                }
-            }
-
-        } catch (SQLException ex) {
-            System.out.println("Error al eliminar al usuario: " + ex.getMessage());
-        } finally {
-
-            
-        }
-        return resp;
-    }
-
-    public User getUser(String username) {
-        User user = new User();
-        try {
-            this.getReg();
-            while (rs.next()) {
-                if (rs.getString("Username").equals(username)) {
-                    user = new User(
-                            rs.getInt("UserID"),
-                            rs.getString("Username"),
-                            rs.getString("Useremail"),
-                            rs.getString("Userpassword"),
-                            rs.getBytes("UserPhoto")
-                    );
-                    break;
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al buscar usuario: " + ex.getMessage());
-        } finally {
-
-          
-
-        }
-        return user;
-    }
-
-    public String getUserName(String username) {
-        String value = " ";
-        try {
-
-            this.getReg();
-            while (rs.next()) {
-                if (rs.getString("Username").equals(username)) {
-                    value = rs.getString("Username");
-                    break;
-
-                }
-            }
-            
-
-        } catch (SQLException ex) {
-            System.out.println("Error al buscar usuario: " + ex.getMessage());
-            JOptionPane.showMessageDialog(null, "El correo es invalido ");
-        } finally {
-
-           
-
-        }
-
-        return value;
-    }
-
-    public String getUserPassword(String username) {
-        String value = " ";
-        try {
-            this.getReg();
-            while (rs.next()) {
-                if (rs.getString("Username").equals(username)) {
-                    value = rs.getString("Userpassword");
-                    
-                    break;
-                } 
-                
-                
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al buscar usuario: " + ex.getMessage());
-            JOptionPane.showMessageDialog(null, "La contraseña es invalida ");
-        } finally {
-
-         
-
-        }
-
-        return value;
-    }
-    
-    public User getUserByID(int idUser) {
-        User user = new User();
-        
-        try {
-            this.getReg();
-            while (rs.next()) {
-                if (rs.getInt("UserID") == idUser) {
-                    user = new User(
-                            rs.getInt("UserID"),
-                            rs.getString("Username"),
-                            rs.getString("Useremail"),
-                            rs.getString("Userpassword"),
-                            rs.getBytes("UserPhoto")
-                    );
-                    
-                    break;
-                } 
-                
-                
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al buscar usuario: " + ex.getMessage());
-        } finally {
-
-         
-
-        }
-
-        return user;
-    }
-    
-    public User getUserByEmail(String email) {
-        User user = new User();
-        try {
-            this.getReg();
-            while (rs.next()) {
-                if (rs.getString("Useremail").equals(email)) {
-                    user = new User(
-                            rs.getInt("UserID"),
-                            rs.getString("Username"),
-                            rs.getString("Useremail"),
-                            rs.getString("Userpassword"),
-                            rs.getBytes("UserPhoto")
-                    );
-                    break;
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al buscar usuario: " + ex.getMessage());
-        } finally {
-
-          
-
-        }
-        return user;
-    }
-    
-    public boolean changePhoto(User user) {
-        boolean resp = false;
+        boolean result = false;
         try {
             this.getReg();
             rs.beforeFirst();
@@ -314,18 +79,67 @@ public class TblUser {
                     rs.updateString("Userpassword", user.getUserPassword());
                     rs.updateBytes("UserPhoto", user.getImage());
                     rs.updateRow();
-                    resp = true;
+                    result = true;
                     break;
 
                 }
             }
         } catch (SQLException ex) {
-            System.out.println("Error al editar al usuario: " + ex.getMessage());
-        } finally {
-            
+            System.out.println("Error editing user: " + ex.getMessage());
         }
 
-        return resp;
+        return result;
     }
     
+    public boolean removeUser(String username) {
+        boolean result = false;
+        try {
+            this.getReg();
+            rs.beforeFirst();
+            while (rs.next()) {
+                if (rs.getString("Username").equals(username)) {
+                    rs.deleteRow();
+                    result = true;
+                    break;
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error removing user: " + ex.getMessage());
+        } 
+        
+        return result;
+    }
+    
+    public boolean existUserByUsername(String username) {
+        return userList().stream()
+                         .anyMatch(u -> u.getUserName().equals(username));
+    }
+    
+    public boolean existUserByEmail(String email) {
+        return userList().stream()
+                         .anyMatch(u -> u.getUserEmail().equals(email));
+    }
+
+    public User getUser(String username) {
+        return (User) userList().stream()
+                              .filter(u -> u.getUserName().equals(username));                     
+    }
+    
+    public String getUserPassword(String username) {
+        temporalUser = (User) userList().stream()
+                    .filter(u -> u.getUserName().equals(username));
+  
+        return temporalUser.getUserPassword();
+    }
+    
+    public User getUserByID(int idUser) {
+        return (User) userList().stream()
+                    .filter(u -> u.getIdUser()==idUser);
+    }
+    
+    public User getUserByEmail(String email) {
+        return (User) userList().stream()
+                    .filter(u -> u.getUserEmail().equals(email));
+    }
 }

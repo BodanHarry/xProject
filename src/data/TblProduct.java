@@ -21,6 +21,10 @@ public class TblProduct {
     private Connection conn = null;
     private static ResultSet rs = null;
     private static PreparedStatement ps = null;
+    
+    TblCategory dCategory = new TblCategory();
+    Category category = new Category();
+    
 
     public void getReg() throws SQLException {
         try {
@@ -38,14 +42,12 @@ public class TblProduct {
 
     public ArrayList<Product> listProduct() {
         ArrayList<Product> list = new ArrayList<>();
-        TblCategory categories = new TblCategory();
-        Category category;
         
         try {
             this.getReg();
             while (rs.next()) {
                 int idCategory = rs.getInt("CategoryID");
-                category = categories.getCategory(idCategory);
+                category = dCategory.getCategory(idCategory);
                 list.add(new Product(
                         rs.getString("Productname"),
                         rs.getString("Productcolor"),
@@ -56,13 +58,9 @@ public class TblProduct {
                 ));
             }
         } catch (SQLException ex) {
-            System.out.println("Error al listar el producto: " + ex.getMessage());
-        } finally {
-
-        }
-
+            System.out.println("Error listing products: " + ex.getMessage());
+        } 
         return list;
-
     }
 
     public boolean addProduct(Product product) {
@@ -80,32 +78,8 @@ public class TblProduct {
             saved = true;
         } catch (SQLException ex) {
             System.out.println("Error al guardar el producto" + ex.getMessage());
-        } finally {
-
-           
-
         }
         return saved;
-    }
-
-    public boolean existProduct(int idProduct) {
-        boolean result = false;
-        try {
-            this.getReg();
-            while (rs.next()) {
-                if (Integer.parseInt(rs.getString("ProductID")) == idProduct) {
-                    result = true;
-                    break;
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al buscar el producto: " + ex.getMessage());
-        } finally {
-
-            
-
-        }
-        return result;
     }
 
     public boolean editProduct(Product product) {
@@ -127,9 +101,6 @@ public class TblProduct {
             }
         } catch (SQLException ex) {
             System.out.println("Error al editar: " + ex.getMessage());
-        } finally {
-
-            
         }
 
         return result;
@@ -157,59 +128,18 @@ public class TblProduct {
         return result;
     }
     
-    public Product getProduct(int idProduct) {
-        Product product =  new Product();
-        TblCategory category = new TblCategory();
-        try {
-            this.getReg();
-            while (rs.next()) {
-                if (Integer.parseInt(rs.getString("ProductID")) == idProduct) {
-                    product = new Product(
-                            rs.getString("Productname"),
-                            rs.getString("Productcolor"),
-                            rs.getInt("ProductID"),
-                            rs.getDouble("Productprice"),
-                            category.getCategory(Integer.parseInt(rs.getString("CategoryID"))),
-                            rs.getInt("Productquantity")
-                    );
-                    break;
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al buscar producto: " + ex.getMessage());
-        } finally {
-
-            
-
-        }
-        return product;
+    public boolean existProduct(int idProduct) {
+        return listProduct().stream()
+                            .anyMatch(p -> p.getIdProduct() == idProduct);
+    }
+    
+    public Product getProductByID(int idProduct) {
+        return (Product) listProduct().stream()
+                                      .filter(p -> p.getIdProduct() == idProduct);
     }
     
     public Product getProductByName(String name){
-        TblCategory dCategory = new TblCategory();
-        Product product = new Product();
-       try {
-            this.getReg();
-            while (rs.next()) {
-                Category actualCategory = dCategory.getCategory(rs.getInt("CategoryID"));
-                String actualProductName = rs.getString("Productname") + " " + actualCategory.getProductType() + " " + actualCategory.getProductSize() + " " + rs.getString("Productcolor");
-                if (name.equals(actualProductName)) {
-                    product = new Product(
-                            rs.getString("Productname"),
-                            rs.getString("Productcolor"),
-                            rs.getInt("ProductID"),
-                            rs.getDouble("Productprice"),
-                            actualCategory,
-                            rs.getInt("Productquantity")
-                    );
-                    return product;
-                }
-            }
-        } catch (SQLException ex) {
-            System.out.println("Error al buscar producto: " + ex.getMessage());
-        }
-       return product;
+        return (Product) listProduct().stream()
+                         .filter(p ->p.getProductName().equals(name));
     }
-    
-    
 }

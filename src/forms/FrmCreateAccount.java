@@ -479,7 +479,7 @@ public class FrmCreateAccount extends javax.swing.JFrame {
         boolean usernameBoolean = false;
         boolean emailBoolean = false;
         
-        if(dUser.existUser(username)){
+        if(dUser.existUserByUsername(username)){
             jTxtErrorUsername.setText("User already exist");
             jTxtErrorUsername.setForeground(new Color(255,0,0));
             jSpUsername.setBackground(new Color(255,0,0));
@@ -498,7 +498,7 @@ public class FrmCreateAccount extends javax.swing.JFrame {
         
         if(usernameBoolean && emailBoolean){
             actualUser = new User(0,jTfUsername.getText(), jTfEmail.getText(), String.valueOf(jPfPassword.getPassword()), null);
-                dUser.addUser(actualUser);
+                dUser.createUser(actualUser);
                 this.dispose();
                 FrmLogin frmLogin = new FrmLogin();
                 frmLogin.setVisible(true);

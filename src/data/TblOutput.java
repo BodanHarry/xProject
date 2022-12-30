@@ -51,7 +51,7 @@ public class TblOutput {
             this.getReg();
             while (rs.next()) {
                 int idProduct = Integer.parseInt(rs.getString("ProductID"));
-                product = products.getProduct(idProduct);
+                product = products.getProductByID(idProduct);
                 int idUser = rs.getInt("UserID");
                 user = users.getUserByID(idUser);
                 list.add(new Output(
@@ -207,7 +207,7 @@ public class TblOutput {
             this.getReg();
             while (rs.next()) {  
                 int idProduct = Integer.parseInt(rs.getString("ProductID"));
-                product = products.getProduct(idProduct);
+                product = products.getProductByID(idProduct);
                 String username = rs.getString("Username");
                 if (Integer.parseInt(rs.getString("OutputID")) == idOutput) {
                     user = users.getUser(username);

@@ -177,7 +177,7 @@ public class FrmChangePhoto extends javax.swing.JFrame {
                 byte[] byteArray = inputStream.readAllBytes();
                 inputStream.close();
                 user.setImage(byteArray);
-                dUser.changePhoto(user);
+                dUser.editUser(user);
                 this.setPhoto(userName);
             }catch(IOException e) {
                 e.printStackTrace();
