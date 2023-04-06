@@ -142,4 +142,10 @@ public class TblUser {
         return (User) userList().stream()
                     .filter(u -> u.getUserEmail().equals(email));
     }
+    
+    public ArrayList<User> getArrayByOneUser(User user){
+        temporalUserArray.clear();
+        temporalUserArray.add(user);
+        return temporalUserArray;
+    }
 }
